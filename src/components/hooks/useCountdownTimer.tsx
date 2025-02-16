@@ -1,28 +1,26 @@
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 import { calculateNextPeriodStart } from '../../utils/timeUtils';
-
-// 初始化 dayjs 插件
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 interface UseCountdownTimerProps {
   timezone: string;
   period: number;
-  offset?: number;
 }
 
-export const useCountdownTimer = ({ timezone, period, offset = 0 }: UseCountdownTimerProps) => {
+export const useCountdownTimer = ({
+  timezone,
+  period,
+}: UseCountdownTimerProps) => {
   const [isRunning, setIsRunning] = useState(false);
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const [currentTime, setCurrentTime] = useState<dayjs.Dayjs>(dayjs().tz(timezone));
+  const [currentTime, setCurrentTime] = useState<dayjs.Dayjs>(
+    dayjs().tz(timezone)
+  );
 
   useEffect(() => {
     const updateTime = () => {
       const now = dayjs().tz(timezone);
-      const nextPeriodStart = calculateNextPeriodStart(now, period, offset);
+      const nextPeriodStart = calculateNextPeriodStart(now, period);
 
       setCurrentTime(now);
       if (isRunning) {
@@ -34,7 +32,7 @@ export const useCountdownTimer = ({ timezone, period, offset = 0 }: UseCountdown
     updateTime();
     const intervalId = setInterval(updateTime, 100);
     return () => clearInterval(intervalId);
-  }, [isRunning, period, offset, timezone]);
+  }, [isRunning, period, timezone]);
 
   const handleStart = () => {
     setIsRunning(true);
@@ -50,6 +48,6 @@ export const useCountdownTimer = ({ timezone, period, offset = 0 }: UseCountdown
     timeLeft,
     currentTime,
     handleStart,
-    handleStop
+    handleStop,
   };
 };

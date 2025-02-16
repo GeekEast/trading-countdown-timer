@@ -5,13 +5,11 @@ import { useCountdownTimer } from './hooks/useCountdownTimer';
 interface CountdownTimerProps {
   timezone: string;
   period: number;
-  offset?: number;
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({
   timezone,
   period,
-  offset = 0,
 }) => {
   const {
     isRunning,
@@ -19,7 +17,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     currentTime,
     handleStart,
     handleStop
-  } = useCountdownTimer({ timezone, period, offset });
+  } = useCountdownTimer({ timezone, period });
 
   return (
     <div className="flex flex-col items-center space-y-4 p-6 bg-white rounded-lg shadow-md">
