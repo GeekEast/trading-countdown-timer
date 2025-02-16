@@ -5,6 +5,7 @@ import { calculateNextPeriodStart } from '../../utils/timeUtils';
 interface UseCountdownTimerProps {
   timezone: string;
   period: number;
+  onComplete?: () => void;
 }
 
 export const useCountdownTimer = ({
@@ -16,6 +17,7 @@ export const useCountdownTimer = ({
   const [currentTime, setCurrentTime] = useState<dayjs.Dayjs>(
     dayjs().tz(timezone)
   );
+  const [audio] = useState(new Audio('/audio.mp3'));
 
   useEffect(() => {
     const updateTime = () => {
@@ -26,13 +28,21 @@ export const useCountdownTimer = ({
       if (isRunning) {
         const diff = Math.ceil(nextPeriodStart.diff(now, 'second', true));
         setTimeLeft(diff);
+
+        if (diff === 5) {
+          audio.play();
+        }
+
+        if (diff <= 0) {
+          setIsRunning(false);
+        }
       }
     };
 
     updateTime();
     const intervalId = setInterval(updateTime, 100);
     return () => clearInterval(intervalId);
-  }, [isRunning, period, timezone]);
+  }, [isRunning, period, timezone, audio]);
 
   const handleStart = () => {
     setIsRunning(true);
