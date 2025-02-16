@@ -23,11 +23,10 @@ describe('useCountdownTimer', () => {
   });
 
   it('应该正确初始化计时器状态', () => {
-    const { result } = renderHook(() => 
-      useCountdownTimer({ 
-        timezone: 'UTC', 
+    const { result } = renderHook(() =>
+      useCountdownTimer({
+        timezone: 'UTC',
         period: 3600, // 1小时
-        offset: 0 
       })
     );
 
@@ -37,11 +36,10 @@ describe('useCountdownTimer', () => {
   });
 
   it('应该在启动时开始倒计时', () => {
-    const { result } = renderHook(() => 
-      useCountdownTimer({ 
-        timezone: 'UTC', 
+    const { result } = renderHook(() =>
+      useCountdownTimer({
+        timezone: 'UTC',
         period: 3600,
-        offset: 0 
       })
     );
 
@@ -54,11 +52,10 @@ describe('useCountdownTimer', () => {
   });
 
   it('应该在停止时重置计时器', () => {
-    const { result } = renderHook(() => 
-      useCountdownTimer({ 
-        timezone: 'UTC', 
+    const { result } = renderHook(() =>
+      useCountdownTimer({
+        timezone: 'UTC',
         period: 3600,
-        offset: 0 
       })
     );
 
@@ -72,11 +69,10 @@ describe('useCountdownTimer', () => {
   });
 
   it('应该随时间推移更新倒计时', async () => {
-    const { result } = renderHook(() => 
-      useCountdownTimer({ 
-        timezone: 'UTC', 
+    const { result } = renderHook(() =>
+      useCountdownTimer({
+        timezone: 'UTC',
         period: 3600,
-        offset: 0 
       })
     );
 
@@ -94,11 +90,10 @@ describe('useCountdownTimer', () => {
   });
 
   it('应该考虑时区设置', () => {
-    const { result } = renderHook(() => 
-      useCountdownTimer({ 
-        timezone: 'Asia/Shanghai', 
+    const { result } = renderHook(() =>
+      useCountdownTimer({
+        timezone: 'Asia/Shanghai',
         period: 3600,
-        offset: 0 
       })
     );
 
@@ -107,4 +102,4 @@ describe('useCountdownTimer', () => {
     expect(result.current.currentTime.format()).toBe(shanghaiTime.format());
     expect(result.current.currentTime.utcOffset()).toBe(480); // 上海是 UTC+8，所以偏移量是 480 分钟
   });
-}); 
+});
